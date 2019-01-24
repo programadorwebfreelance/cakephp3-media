@@ -6,7 +6,7 @@
 		"php" : ">=5.4.0"
 	},
 	"require-dev" : {
-		"cakephp/cakephp" : "~3.6",
+		"cakephp/cakephp" : "3.*",
 		"phpunit/phpunit" : "*",
 		"cakephp/cakephp-codesniffer" : "2.*"
 	},
