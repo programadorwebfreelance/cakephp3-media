@@ -1,0 +1,56 @@
+{
+	"name" : "programadorwebfreelance/cakephp3-media",
+	"description" : "Media plugin for CakePHP 3",
+	"type" : "cakephp-plugin",
+	"require" : {
+		"php" : ">=5.4.0"
+	},
+	"require-dev" : {
+		"cakephp/cakephp" : "~3.6",
+		"phpunit/phpunit" : "*",
+		"cakephp/cakephp-codesniffer" : "2.*"
+	},
+	"suggest" : {
+		"ezyang/htmlpurifier" : "dev-master"
+	},
+	"autoload" : {
+		"psr-4" : {
+			"Media\\" : "src"
+		}
+	},
+	"autoload-dev" : {
+		"psr-4" : {
+			"Media\\Test\\" : "tests",
+			"Media\\Test\\Fixture\\" : "tests/Fixture",
+			"Cake\\Test\\" : "./vendor/cakephp/cakephp/tests",
+			"App\\" : "tests/tests_app"
+		}
+	},
+	"authors" : [{
+			"name" : "Romain Guillemin",
+			"email" : "contact@romain-guillemin.fr",
+			"homepage" : "http://www.romain-guillemin.fr",
+			"role" : "Developper & Maintainer"
+		}, {
+			"name" : "Jonathan Boyer",
+			"email" : "contact@grafikart.fr",
+			"homepage" : "http://jonathan-boyer.fr/",
+			"role" : "Initial Author"
+		},
+		{
+			"name" : "José Manuel Invernón",
+			"email" : "invernonfreelance@gmail.com",
+			"homepage" : "http://www.programadorwebfreelance.es",
+			"role" : "Desarrollador Web"
+		}
+	],
+	"keywords" : [
+		"Plugin",
+		"Media",
+		"CakePHP"
+	],
+	"support" : {
+		"source" : "https://github.com/programadorwebfreelance/CakePHP3-Media",
+		"issues" : "https://github.com/programadorwebfreelance/CakePHP3-Media/issues"
+	}
+}

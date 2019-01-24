@@ -1,0 +1,8 @@
+/vendor/*
+/webroot/coverage/*
+/tests/test_app/*
+/css/.sass-cache/*
+/css/config.rb
+/css/style.scss
+.buildpath
+.project
