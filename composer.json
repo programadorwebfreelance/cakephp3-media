@@ -52,6 +52,5 @@
 	"support" : {
 		"source" : "https://github.com/programadorwebfreelance/CakePHP3-Media",
 		"issues" : "https://github.com/programadorwebfreelance/CakePHP3-Media/issues"
-	},
-	"minimum-stability" : "dev"
+	}
 }
