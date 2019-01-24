@@ -1,4 +1,5 @@
 <?php
+
 namespace Media\Model\Table;
 
 use Cake\Event\Event;
@@ -10,41 +11,20 @@ use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
 use Cake\Validation\Validator;
-use Media\Model\Entity\Media;
 
-/**
- * Medias Model
- *
- * @property \Cake\ORM\Association\BelongsTo $Reves
- * @property \Cake\ORM\Association\HasMany $Actions
- */
+
 class MediasTable extends Table
 {
 
-    /**
-     * Initialize method
-     *
-     * @param array $config
-     *            configuration for the Table.
-     *            
-     * @return void
-     */
     public function initialize(array $config)
     {
-        $this->table('medias');
-        $this->displayField('id');
-        $this->primaryKey('id');
+
+        $this->setTable('medias');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
+
     }
 
-    /**
-     * Delete uploaded files
-     *
-     * @param \Cake\Event\Event $event            
-     * @param \Cake\ORM\Entity $entity            
-     * @param \ArrayObject $options            
-     *
-     * @return bool
-     */
     public function beforeDelete(Event $event, Entity $entity, \ArrayObject $options)
     {
         $file = $entity->file;
@@ -58,34 +38,38 @@ class MediasTable extends Table
         return true;
     }
 
-    /**
-     * File treatment, upload and return string to save in database
-     *
-     * @param \Cake\Event\Event $event            
-     * @param \Cake\ORM\Entity $entity            
-     * @param \ArrayObject $options            
-     *
-     * @throws Cake\Network\Exception\NotImplementedException
-     *
-     * @return bool
-     */
+
     public function beforeSave(Event $event, Entity $entity, \ArrayObject $options)
     {
+
         if (isset($entity->ref)) {
+
             $ref = $entity->ref;
             $table = TableRegistry::get($ref);
+
             if (! \in_array('Media', $table->behaviors()->loaded())) {
+
                 throw new NotImplementedException(__d('media', "The model '{0}' doesn't have a 'Media' Behavior", $ref));
+
             }
+
         }
+
         if (isset($options['file']) && is_array($options['file']) && isset($entity->ref)) {
+
             $table = TableRegistry::get($entity->ref);
             $refId = $entity->ref_id;
+
             if (\method_exists($entity->ref, 'uploadMediasPath')) {
+
                 $path = $table->uploadMediasPath($refId);
+
             } else {
+
                 $path = $table->medias['path'];
+
             }
+
             $pathinfo = \pathinfo($options['file']['name']);
             $extension = \strtolower($pathinfo['extension']) == 'jpeg' ? 'jpg' : \strtolower($pathinfo['extension']);
             
@@ -99,6 +83,7 @@ class MediasTable extends Table
                 '%m',
                 '%f'
             ];
+
             $replace = [
                 DS,
                 $refId,
@@ -108,65 +93,60 @@ class MediasTable extends Table
                 date('m'),
                 \strtolower(Inflector::slug($filename))
             ];
+
             $file = \str_replace($search, $replace, $path) . '.' . $extension;
             $this->testDuplicate($file);
+
             if (! \file_exists(\dirname(WWW_ROOT . $file))) {
+
                 \mkdir(\dirname(WWW_ROOT . $file), 0777, true);
+
             }
+
             $this->moveUploadedFile($options['file']['tmp_name'], WWW_ROOT . $file);
             @\chmod(WWW_ROOT . $file, 0777);
             $entity->file = '/' . \trim(\str_replace(DS, '/', $file), '/');
+
         }
+
         return true;
+
     }
 
-    /**
-     * Alias for move_uploded_file function
-     *
-     * @param string $filename            
-     * @param string $destination            
-     *
-     * @return bool
-     */
     protected function moveUploadedFile($filename, $destination)
     {
+
         return \move_uploaded_file($filename, $destination);
+
     }
 
-    /**
-     * Test if file $dir exists.
-     * If it's the case, add a {n} before the extension
-     *
-     * @param string $dir            
-     * @param int $count            
-     *
-     * @return string
-     */
     protected function testDuplicate(&$dir, $count = 0)
     {
+
         $file = $dir;
+
         if ($count > 0) {
             $pathinfo = \pathinfo($dir);
             $file = $pathinfo['dirname'] . '/' . $pathinfo['filename'] . '-' . $count . '.' . $pathinfo['extension'];
         }
+
         if (! \file_exists(WWW_ROOT . $file)) {
+
             $dir = $file;
             return $dir;
+
         } else {
+
             $count ++;
             $this->testDuplicate($dir, $count);
+
         }
+
     }
 
-    /**
-     * Validate file before save entity
-     *
-     * @param \Cake\Validation\Validator $validator            
-     *
-     * @return \Cake\Validation\Validator
-     */
     public function validationDefault(Validator $validator)
     {
+
         $validator->add('file', [
             'global' => [
                 'rule' => function ($data, $provider) {
@@ -223,5 +203,7 @@ class MediasTable extends Table
         ]);
 
         return $validator;
+
     }
+
 }
