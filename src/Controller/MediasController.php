@@ -13,6 +13,7 @@ class MediasController extends AppController
     public function canUploadMedias($ref, $refId)
     {
 
+        /*
         if (method_exists('\App\Controller\Admin\AppController',
             'canUploadMedias')) {
             return \App\Controller\Admin\AppController::canUploadMedias($ref,
@@ -24,6 +25,9 @@ class MediasController extends AppController
         } else {
             return false;
         }
+        */
+
+        return true;
 
     }
 
@@ -31,7 +35,9 @@ class MediasController extends AppController
     {
 
         parent::beforeFilter($event);
+
         $this->viewBuilder()->setLayout('uploader');
+
         if (in_array('Security', $this->components()->loaded())) {
 
             $this->Security->setConfig('unlockedActions', ['index',
