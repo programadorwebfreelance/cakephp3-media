@@ -19,9 +19,9 @@ class Media extends Entity
 
     public $icon,$type;
 
-    protected function _getFileType()
+    protected function getFileType()
     {
-        if (isset($this->file)) {
+        if ($this->file) {
 
             $extension = \pathinfo($this->file, PATHINFO_EXTENSION);
 
@@ -39,10 +39,10 @@ class Media extends Entity
 
     }
 
-    protected function _getFileIcon()
+    protected function getFileIcon()
     {
 
-        if (isset($this->file)) {
+        if ($this->file) {
 
             $extension = \pathinfo($this->file, PATHINFO_EXTENSION);
 
